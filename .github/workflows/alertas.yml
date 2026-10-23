@@ -5,7 +5,7 @@ on:
     # Alertas: cada 30 min, lun-vie, 12:00-21:59 UTC (cubre horario Bolsa de Santiago y NYSE)
     - cron: "*/30 12-21 * * 1-5"
     # Resumen de cierre: lun-vie 20:35 UTC (17:35 Chile en horario de verano, 16:35 en invierno)
-    - cron: "35 20 * * 1-5"
+    - cron: "35 19 * * 1-5"
   workflow_dispatch:
     inputs:
       modo:
@@ -50,7 +50,7 @@ jobs:
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           MARGEN_PCT: "1"
-          MODO: ${{ github.event.schedule == '35 20 * * 1-5' && 'resumen' || inputs.modo || 'alertas' }}
+          MODO: ${{ github.event.schedule == '35 19 * * 1-5' && 'resumen' || inputs.modo || 'alertas' }}
 
       - name: Guardar estado
         if: always()
