@@ -2,9 +2,17 @@ name: Alertas de precio
 
 on:
   schedule:
-    # Cada 30 min, lun-vie, 12:00-21:59 UTC (cubre horario Bolsa de Santiago y NYSE, con y sin horario de verano)
+    # Alertas: cada 30 min, lun-vie, 12:00-21:59 UTC (cubre horario Bolsa de Santiago y NYSE)
     - cron: "*/30 12-21 * * 1-5"
-  workflow_dispatch: {}  # permite correrlo a mano desde la pestaña Actions
+    # Resumen de cierre: lun-vie 20:35 UTC (17:35 Chile en horario de verano, 16:35 en invierno)
+    - cron: "35 20 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "Qué ejecutar"
+        type: choice
+        options: [alertas, resumen]
+        default: alertas
 
 permissions:
   contents: read
@@ -42,6 +50,7 @@ jobs:
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           MARGEN_PCT: "1"
+          MODO: ${{ github.event.schedule == '35 20 * * 1-5' && 'resumen' || inputs.modo || 'alertas' }}
 
       - name: Guardar estado
         if: always()
