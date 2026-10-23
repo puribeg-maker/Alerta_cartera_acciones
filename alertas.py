@@ -97,6 +97,12 @@ def modo_alertas(config: list, estado: dict) -> None:
             alertas.append(
                 f"{MENSAJES[z]} — {ticker}: actual {fmt(p)} | venta {fmt(venta)} | stop {fmt(stop)}"
             )
+        # Avisa cuando sale de la zona del stop loss hacia arriba y vuelve a OK
+        elif z == "OK" and previa in ("CERCA_STOP", "STOP"):
+            alertas.append(
+                f"🔵 Se alejó del stop loss, vuelve a OK — {ticker}: actual {fmt(p)} | stop {fmt(stop)} "
+                f"({fmt_pct((stop / p - 1) * 100)})"
+            )
         estado[ticker] = z
 
     if alertas:
