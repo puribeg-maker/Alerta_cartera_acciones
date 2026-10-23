@@ -1,0 +1,5 @@
+[
+  {"accion": "SQM-B.SN", "venta": 50000, "stop_loss": 38000},
+  {"accion": "CHILE.SN", "venta": 160, "stop_loss": 130},
+  {"accion": "AAPL", "venta": 260, "stop_loss": 210}
+]
